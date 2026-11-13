@@ -1,44 +1,30 @@
-/* CALVIN HOME — avis clients via Firestore (API REST, sans SDK).
-   - Création : document { name, rating, text, status: "pending" } (jamais publié tant que status != "approved")
-   - Lecture  : uniquement les documents status == "approved"
-   La validation se fait dans la console Firebase en passant status à "approved". */
+/* CALVIN HOME — avis clients via Supabase (API REST PostgREST, sans SDK).
+   - Création : { name, rating, text } → status "pending" par défaut (imposé par la base, RLS)
+   - Lecture  : uniquement les avis status = "approved" (RLS)
+   Validation : tableau de bord Supabase → Table Editor → calvin_home_reviews → status = approved. */
 (function () {
   'use strict';
-  var C = window.CH_FIREBASE || {};
-  var enabled = !!(C.apiKey && C.projectId);
-  var base = enabled ? 'https://firestore.googleapis.com/v1/projects/' + encodeURIComponent(C.projectId) + '/databases/(default)/documents' : '';
-
-  function timeout(ms) {
-    var c = new AbortController(); setTimeout(function () { c.abort(); }, ms); return c.signal;
+  var C = window.CH_SUPABASE || {};
+  var enabled = !!(C.url && C.anonKey);
+  var api = enabled ? C.url.replace(/\/+$/, '') + '/rest/v1/calvin_home_reviews' : '';
+  function headers(extra) {
+    var h = { apikey: C.anonKey, 'Content-Type': 'application/json' };
+    for (var k in extra) h[k] = extra[k]; return h;
   }
+  function timeout(ms) { var c = new AbortController(); setTimeout(function () { c.abort(); }, ms); return c.signal; }
 
   function submit(r) {
     if (!enabled) return Promise.reject(new Error('not-configured'));
-    var body = { fields: {
-      name: { stringValue: r.name }, rating: { integerValue: String(r.rating) },
-      text: { stringValue: r.text }, status: { stringValue: 'pending' }
-    } };
-    return fetch(base + '/reviews?key=' + encodeURIComponent(C.apiKey), {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: timeout(15000)
-    }).then(function (res) { if (!res.ok) throw new Error('http-' + res.status); return res.json(); });
+    return fetch(api, { method: 'POST', headers: headers({ Prefer: 'return=minimal' }),
+      body: JSON.stringify({ name: r.name, rating: r.rating, text: r.text }), signal: timeout(15000) })
+      .then(function (res) { if (!res.ok) throw new Error('http-' + res.status); });
   }
-
   function fetchApproved() {
     if (!enabled) return Promise.resolve([]);
-    var q = { structuredQuery: { from: [{ collectionId: 'reviews' }],
-      where: { fieldFilter: { field: { fieldPath: 'status' }, op: 'EQUAL', value: { stringValue: 'approved' } } }, limit: 20 } };
-    return fetch(base + ':runQuery?key=' + encodeURIComponent(C.apiKey), {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(q), signal: timeout(15000)
-    }).then(function (res) { if (!res.ok) throw new Error('http-' + res.status); return res.json(); })
-      .then(function (rows) {
-        return rows.filter(function (x) { return x.document; }).map(function (x) {
-          var f = x.document.fields || {};
-          return { name: (f.name || {}).stringValue || '', rating: +((f.rating || {}).integerValue || 0),
-            text: (f.text || {}).stringValue || '', t: x.document.createTime || '' };
-        }).filter(function (r) { return r.name && r.text && r.rating >= 1 && r.rating <= 5; })
-          .sort(function (a, b) { return a.t < b.t ? 1 : -1; });
-      });
+    return fetch(api + '?select=name,rating,text,created_at&status=eq.approved&order=created_at.desc&limit=20',
+      { headers: headers({}), signal: timeout(15000) })
+      .then(function (res) { if (!res.ok) throw new Error('http-' + res.status); return res.json(); })
+      .then(function (rows) { return rows.filter(function (r) { return r.name && r.text && r.rating >= 1 && r.rating <= 5; }); });
   }
-
   window.CH_Reviews = { enabled: enabled, submit: submit, fetchApproved: fetchApproved };
 })();

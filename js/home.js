@@ -125,7 +125,7 @@
     RV.fetchApproved().then(function (rows) { REV = REV.concat(rows); renderReviews(); }).catch(function () {});
   }
   $('#emptyStars').innerHTML = starsHtml(0);
-  // Texte du formulaire selon le mode réel (base Firestore ou repli WhatsApp)
+  // Texte du formulaire selon le mode réel (base Supabase ou repli WhatsApp)
   var rvHint = $('#rvHint'), rvStep = $('#rvStep2');
   if (RV.enabled) {
     rvHint.textContent = 'Votre avis est enregistré en attente de validation : il n’apparaîtra sur le site qu’après vérification par CALVIN HOME.';

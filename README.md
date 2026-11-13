@@ -40,10 +40,10 @@ js/home.js            Hero, avis, formulaires (devis, avis)
 js/catalogue.js       Filtres, pagination, visionneuse
 js/data.js            LISTE DES 72 ARTICLES (photos + vidéos) — modifiable
 js/avis-valides.js    Avis validés ajoutés manuellement (vide au départ)
-js/reviews.js         Avis clients via Firestore (REST)
-js/firebase-config.js Configuration Firebase (vide par défaut)
-firestore.rules       Règles de sécurité Firestore
-scripts/gen-config.js Génère la config Firebase au build (Vercel)
+js/reviews.js         Avis clients via Supabase (REST)
+js/supabase-config.js Configuration Supabase (vide par défaut)
+supabase/migrations/  Table des avis + règles RLS
+scripts/gen-config.js Génère la config Supabase au build (Vercel)
 vercel.json           Configuration de déploiement
 assets/brand/         Logo officiel CALVIN HOME + favicons (tirés du vrai logo)
 assets/img/           52 photos pleine taille (WebP)
@@ -72,16 +72,15 @@ assets/fonts/         Polices Cormorant Garamond et Jost (auto-hébergées)
   renseignements sur un service, visite du showroom.
 - Les formulaires **n’envoient rien à un serveur** : ils ouvrent WhatsApp avec le message déjà rédigé, que le visiteur envoie lui-même.
 
-## 6. Avis clients (enregistrement réel + validation)
+## 6. Avis clients (Supabase, avec validation)
 
-**Mode Firebase (Firestore)** — activé dès que `FIREBASE_API_KEY` et `FIREBASE_PROJECT_ID` sont définies (voir `.env.example`) :
-1. Le visiteur envoie nom, note (1–5) et commentaire → un document `reviews` est créé avec `status: "pending"` (API REST Firestore, `js/reviews.js`).
-2. Il n'est **jamais affiché** tant que `status` ≠ `"approved"` : les règles `firestore.rules` n'autorisent la lecture publique que des avis approuvés, interdisent toute modification/suppression côté public et valident les champs.
-3. Pour publier : console Firebase → Firestore → collection `reviews` → passer `status` à `approved`.
+1. Le visiteur envoie nom, note (1–5) et commentaire → une ligne est créée dans `calvin_home_reviews` (Supabase) avec `status = 'pending'` (`js/reviews.js`, API REST).
+2. L'avis n'est **jamais affiché** tant que `status` ≠ `'approved'` : la sécurité par lignes (RLS, voir `supabase/migrations/`) n'autorise le public qu'à **déposer** un avis en attente et à **lire** les avis approuvés ; aucune modification ni suppression publique ; champs validés par la base (nom ≤ 60, note 1–5, texte ≤ 800).
+3. Pour publier : tableau de bord Supabase → Table Editor → `calvin_home_reviews` → passer `status` à `approved`.
 
-**Configuration à faire (une seule fois)** : créer un projet Firebase + base Firestore, publier `firestore.rules`, enregistrer une application Web, puis ajouter `FIREBASE_API_KEY` et `FIREBASE_PROJECT_ID` dans Vercel (Settings → Environment Variables) et redéployer. Le build exécute `scripts/gen-config.js` qui génère `js/firebase-config.js`.
+La table et les règles RLS sont déjà créées dans le projet Supabase. **Activation sur le site** : définir `SUPABASE_URL` et `SUPABASE_ANON_KEY` (clé publishable/anon, jamais service_role) dans Vercel (voir `.env.example`) ; le build génère `js/supabase-config.js`.
 
-**Sans configuration (état actuel)** : repli honnête sur WhatsApp — l'avis est préparé dans un message envoyé à CALVIN HOME, qui peut ensuite l'ajouter à `js/avis-valides.js`. Aucune base de données n'est simulée ; l'interface indique le mode réellement actif.
+**Sans ces variables**, repli honnête sur WhatsApp (l'interface indique le mode actif). Aucune base n'est simulée.
 
 ## 7. Informations à compléter / confirmer
 
@@ -114,4 +113,4 @@ assets/fonts/         Polices Cormorant Garamond et Jost (auto-hébergées)
 ## 10. Navigateurs et tests
 
 Tests automatisés Playwright/Chromium (bureau 1366×800 et émulation Pixel 7) : logo, 5 expertises, liens WhatsApp, hero vidéo, menu mobile, devis, validation d’avis, pagination (6 pages), filtres (comptes exacts), visionneuse photo/vidéo, décodage des 20 vidéos, 72 vignettes chargées, console sans erreur, aucune requête en échec.
-Le flux d’avis Firestore a été testé avec un réseau simulé (format des requêtes, statut « pending », rendu des avis approuvés) ; il n’a pas pu être testé contre une vraie base Firebase.
+Les règles RLS Supabase ont été testées en base (rôle anonyme) ; le flux navigateur → Supabase a été testé avec un réseau simulé, le réseau de la session bloquant supabase.co.
