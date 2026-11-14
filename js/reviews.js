@@ -26,5 +26,13 @@
       .then(function (res) { if (!res.ok) throw new Error('http-' + res.status); return res.json(); })
       .then(function (rows) { return rows.filter(function (r) { return r.name && r.text && r.rating >= 1 && r.rating <= 5; }); });
   }
-  window.CH_Reviews = { enabled: enabled, submit: submit, fetchApproved: fetchApproved };
+  /* Demandes de devis : copie enregistrée dans Supabase (insertion seule, RLS), en plus de l'envoi WhatsApp. */
+  var qApi = enabled ? C.url.replace(/\/+$/, '') + '/rest/v1/calvin_home_quotes' : '';
+  function submitQuote(q) {
+    if (!enabled) return Promise.resolve(false);
+    return fetch(qApi, { method: 'POST', headers: headers({ Prefer: 'return=minimal' }), keepalive: true,
+      body: JSON.stringify({ name: q.name, phone: q.phone, service: q.service, subject: q.subject, description: q.description }), signal: timeout(15000) })
+      .then(function (res) { return res.ok; }).catch(function () { return false; });
+  }
+  window.CH_Reviews = { submitQuote: submitQuote, enabled: enabled, submit: submit, fetchApproved: fetchApproved };
 })();

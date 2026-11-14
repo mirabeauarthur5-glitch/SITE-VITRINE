@@ -399,3 +399,52 @@ fieldset.field{border:0;padding:0;margin:0}
 }
 @media print{.site-header,.wa-float,.hero-ctl{display:none}}
 .fb.err-msg{background:#f6e4e0;border-left-color:#a33a2a}
+
+/* ---------- Recherche catalogue / badge nouveauté ---------- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.search{flex:1 1 100%;min-width:0}
+.toolbar .chips{min-width:0}
+@media (min-width:721px){.toolbar .chips{margin:0;padding:2px 0;flex:1 1 0;flex-wrap:wrap;overflow:visible}}
+@media (max-width:720px){.toolbar{position:static}}
+.search input{width:100%;min-height:46px;padding:0 16px;border:1px solid var(--line);background:#fff;font:inherit;font-size:15px;color:var(--ink);border-radius:0}
+.search input:focus{outline:2px solid var(--bronze);outline-offset:1px}
+.card .new{position:absolute;right:10px;top:10px;background:var(--bronze);color:#fff;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:5px 9px;z-index:2}
+
+/* ---------- Nouvelles vidéos (accueil) ---------- */
+.newvids{background:var(--ivory)}
+.nv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px;align-items:stretch}
+.nv{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:var(--ink)}
+.nv img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.nv:hover img{transform:scale(1.04)}
+.nv span{position:absolute;left:0;right:0;bottom:0;padding:34px 16px 14px;color:#fff;font-family:var(--serif);font-size:1.25rem;line-height:1.15;background:linear-gradient(transparent,rgba(23,18,14,.82))}
+@media (max-width:900px){.nv-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+
+/* ---------- Atelier : animation du menuisier ---------- */
+.craft{background:var(--ink);color:#fff;padding:clamp(56px,7vw,104px) 0 0;overflow:hidden}
+.craft-txt{font-family:var(--serif);font-size:clamp(1.7rem,3.6vw,3rem);line-height:1.18;text-align:center;max-width:24ch;margin:0 auto;color:#fff;font-style:italic;font-weight:400}
+.craft-scene{max-width:1100px;margin:clamp(20px,3vw,40px) auto 0;padding:0 var(--pad)}
+.craft-scene svg{display:block;width:100%;height:auto}
+.craft svg *{vector-effect:non-scaling-stroke}
+.craft .floor{stroke:var(--bronze-l);stroke-opacity:.35;stroke-width:1.5}
+.craft .bench rect{fill:var(--wood);stroke:var(--bronze-l);stroke-width:1.2}
+.craft .bench path{stroke:var(--bronze-l);stroke-width:2.2;fill:none;stroke-linecap:round}
+.craft .plank{fill:var(--bronze);stroke:var(--bronze-l);stroke-width:1}
+.craft .plank-grain{stroke:var(--wood);stroke-width:1;opacity:.7;fill:none}
+.craft .man .leg{stroke:var(--sand);stroke-width:9;stroke-linecap:round;fill:none;opacity:.9}
+.craft .man .shoe{stroke:var(--bronze-l);stroke-width:5;stroke-linecap:round}
+.craft .man .body{fill:var(--ink-2);stroke:var(--sand);stroke-width:1.6}
+.craft .man .apron{fill:var(--brown);opacity:.9}
+.craft .man .head{fill:var(--sand)}
+.craft .man .cap{fill:var(--bronze-l)}
+.craft .man .arm{stroke:var(--sand);stroke-width:9;stroke-linecap:round}
+.craft .plane rect{fill:var(--bronze-l)}
+.craft .plane path{fill:none;stroke:var(--sand);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.craft .sh{fill:none;stroke:var(--bronze-l);stroke-width:1.6;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:left bottom;animation:shave 2.6s ease-out infinite}
+.craft .s2{animation-delay:.35s}.craft .s3{animation-delay:.7s}
+.craft .dust{fill:var(--sand);opacity:0;animation:dust 2.6s ease-out infinite}
+.craft .d2{animation-delay:.3s}.craft .d3{animation-delay:.6s}
+@keyframes shave{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:.9}100%{opacity:0;transform:translate(-26px,10px) scale(1.1) rotate(-12deg)}}
+@keyframes dust{0%{opacity:0;transform:translateY(0)}25%{opacity:.7}100%{opacity:0;transform:translateY(-16px)}}
+.craft svg.still .sh,.craft svg.still .dust{animation:none;opacity:0}
+.craft svg.still .sh.s1{opacity:.8}
+@media (prefers-reduced-motion:reduce){.craft .sh,.craft .dust{animation:none;opacity:0}.craft .sh.s1{opacity:.8}}

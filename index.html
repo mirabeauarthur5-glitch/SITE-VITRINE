@@ -6,12 +6,17 @@
 <title>CALVIN HOME — Menuiserie, mobilier et aménagement à Pointe-Noire</title>
 <meta name="description" content="CALVIN HOME, showroom KM4 à Pointe-Noire (Congo) : menuiserie aluminium, bois et meubles, garnissage, décoration et construction. Découvrez le catalogue et demandez un devis sur WhatsApp.">
 <meta name="theme-color" content="#17120E">
+<link rel="canonical" href="https://site-vitrine-ciry.vercel.app/">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:site_name" content="CALVIN HOME">
 <meta property="og:title" content="CALVIN HOME — Menuiserie, mobilier et aménagement à Pointe-Noire">
+<meta property="og:url" content="https://site-vitrine-ciry.vercel.app/"><meta property="og:image" content="https://site-vitrine-ciry.vercel.app/assets/brand/og-calvin-home.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="CALVIN HOME — salon aménagé, showroom KM4 Pointe-Noire">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:description" content="Showroom KM4, Pointe-Noire : menuiserie aluminium, bois et meubles, garnissage, décoration et construction.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FurnitureStore","name":"CALVIN HOME","description":"Menuiserie aluminium, menuiserie bois et meubles, garnissage, décoration et construction — Showroom KM4, Pointe-Noire.","telephone":"+242064522722","address":{"@type":"PostalAddress","addressLocality":"Pointe-Noire","addressCountry":"CG"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FurnitureStore","name":"CALVIN HOME","description":"Menuiserie aluminium, menuiserie bois et meubles, garnissage, décoration et construction — Showroom KM4, Pointe-Noire.","telephone":"+242064522722","url":"https://site-vitrine-ciry.vercel.app/","image":"https://site-vitrine-ciry.vercel.app/assets/brand/og-calvin-home.jpg","logo":"https://site-vitrine-ciry.vercel.app/assets/brand/logo-calvin-home-officiel.jpg","areaServed":"Pointe-Noire, République du Congo","address":{"@type":"PostalAddress","streetAddress":"KM4","addressLocality":"Pointe-Noire","addressCountry":"CG"}}</script>
 <link rel="icon" type="image/png" sizes="48x48" href="assets/brand/favicon-48.png">
 <link rel="apple-touch-icon" href="assets/brand/favicon-192.png">
+<link rel="preload" href="assets/fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 <script>document.documentElement.className+=' js'</script>
 </head>
@@ -208,6 +213,23 @@
   </div>
 </section>
 
+<!-- ============ NOUVELLES VIDÉOS ============ -->
+<section class="sec newvids" id="nouveautes">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">Nouveautés</span>
+      <h2 class="h2">Nos dernières <em>vidéos</em>.</h2>
+    </div>
+    <div class="nv-grid reveal">
+      <a href="catalogue.html#type=video&amp;q=baie" class="nv"><img src="assets/posters/calvin-home-n02.webp" alt="Baie vitrée coulissante en aluminium" loading="lazy" width="480" height="480"><span>Baie vitrée aluminium</span></a>
+      <a href="catalogue.html#type=video&amp;q=canape" class="nv"><img src="assets/posters/calvin-home-n09.webp" alt="Canapé capitonné rose" loading="lazy" width="720" height="406"><span>Canapé capitonné</span></a>
+      <a href="catalogue.html#type=video&amp;q=bureau" class="nv"><img src="assets/posters/calvin-home-n07.webp" alt="Bureau en bois massif" loading="lazy" width="720" height="406"><span>Bureau en bois massif</span></a>
+      <a href="catalogue.html#type=video&amp;q=cuisine" class="nv"><img src="assets/posters/calvin-home-n08.webp" alt="Cuisine équipée" loading="lazy" width="576" height="1024"><span>Cuisine équipée</span></a>
+    </div>
+    <div class="tz-foot"><a class="btn btn-solid" href="catalogue.html#type=video">Voir les 30 vidéos <i data-ic="arrow"></i></a></div>
+  </div>
+</section>
+
 <!-- ============ SHOWROOM ============ -->
 <section class="sec dark showroom" id="showroom">
   <div class="wrap grid">
@@ -283,6 +305,7 @@
       </ul>
     </div>
     <form class="form reveal d1" id="qForm" novalidate>
+      <div class="hp" aria-hidden="true" style="position:absolute;left:-9999px"><label>Ne pas remplir<input id="qWeb" name="website" tabindex="-1" autocomplete="off"></label></div>
       <div class="row2">
         <div class="field"><label for="qName">Nom et prénom</label><input id="qName" type="text" autocomplete="name" required><span class="err">Merci d’indiquer votre nom et prénom.</span></div>
         <div class="field"><label for="qTel">Téléphone</label><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+242 …"><span class="err">Merci d’indiquer un numéro valide.</span></div>
@@ -316,6 +339,49 @@
   </div>
 </section>
 </main>
+
+<!-- ============ ATELIER (animation artisan) ============ -->
+<section class="craft" id="atelier" aria-labelledby="craftTitle">
+  <div class="wrap">
+    <p class="craft-txt" id="craftTitle">De la conception à la réalisation, nous donnons vie à vos espaces.</p>
+  </div>
+  <div class="craft-scene" role="img" aria-label="Illustration : un menuisier rabote une planche sur son établi">
+    <svg id="craftSvg" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+      <line class="floor" x1="0" y1="286" x2="1200" y2="286"/>
+      <g class="bench">
+        <rect x="430" y="226" width="500" height="16" rx="2"/>
+        <rect x="450" y="242" width="460" height="8"/>
+        <path d="M470 250v36M530 250v36M830 250v36M890 250v36M530 268h300"/>
+      </g>
+      <rect class="plank" x="470" y="214" width="380" height="12" rx="1"/>
+      <path class="plank-grain" d="M482 220h350"/>
+      <g class="shavings">
+        <path class="sh s1" d="M650 214c8-14 22-16 26-6s-8 14-14 8"/>
+        <path class="sh s2" d="M650 214c10-20 30-22 34-10s-10 18-18 10"/>
+        <path class="sh s3" d="M650 214c4-10 16-12 20-4"/>
+        <circle class="dust d1" cx="658" cy="206" r="1.6"/><circle class="dust d2" cx="668" cy="200" r="1.3"/><circle class="dust d3" cx="678" cy="208" r="1.5"/>
+      </g>
+      <g class="man">
+        <path class="leg" d="M386 198l-14 88M392 198l16 88"/>
+        <path class="shoe" d="M360 286h24M396 286h26"/>
+        <path class="body" d="M370 196C360 160 380 128 410 118c22-2 36 10 30 28-8 24-16 42-20 54z"/>
+        <path class="apron" d="M388 160l50-10-12 52c-14 4-28 2-40-4z"/>
+        <circle class="head" cx="440" cy="98" r="18"/>
+        <path class="cap" d="M423 94c3-16 29-20 35-4-10-6-22-6-35 4z"/>
+        <path class="arm" fill="none" d="M428 134 Q 470 186 548 186">
+          <animate attributeName="d" dur="2.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1"
+            values="M428 134 Q 470 186 548 186;M428 134 Q 490 182 592 186;M428 134 Q 470 186 548 186"/>
+        </path>
+      </g>
+      <g class="plane">
+        <animateTransform attributeName="transform" type="translate" dur="2.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" values="0 0;44 0;0 0"/>
+        <rect x="518" y="198" width="70" height="16" rx="3"/>
+        <path d="M530 198c0-12 8-16 16-16s14 4 14 16"/>
+        <path d="M574 198l10-12h8"/>
+      </g>
+    </svg>
+  </div>
+</section>
 
 <!-- ============ PIED DE PAGE ============ -->
 <footer class="footer">

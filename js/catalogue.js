@@ -11,7 +11,8 @@
   var LABEL = {}; CATS.forEach(function (c) { LABEL[c[0]] = c[1]; });
   LABEL.all = 'Catalogue';
 
-  var state = { cat: 'all', type: 'all', page: 1 };
+  var state = { cat: 'all', type: 'all', page: 1, q: '' };
+  function norm(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
   var view = [];            // éléments filtrés (toutes pages)
   var masonry = $('#masonry'), pager = $('#pager');
 
@@ -25,14 +26,17 @@
     state.cat = (o.cat && LABEL[o.cat]) ? o.cat : 'all';
     state.type = (o.type === 'photo' || o.type === 'video') ? o.type : 'all';
     state.page = Math.max(1, parseInt(o.page, 10) || 1);
+    state.q = (o.q || '').slice(0, 60);
+    var qi = document.getElementById('q'); if (qi && qi.value !== state.q) qi.value = state.q;
   }
   function setHash(patch, keepPage) {
-    var s = { cat: state.cat, type: state.type, page: state.page };
+    var s = { cat: state.cat, type: state.type, page: state.page, q: state.q };
     for (var k in patch) s[k] = patch[k];
     if (!keepPage && !('page' in patch)) s.page = 1;
     var parts = [];
     if (s.cat !== 'all') parts.push('cat=' + s.cat);
     if (s.type !== 'all') parts.push('type=' + s.type);
+    if (s.q) parts.push('q=' + encodeURIComponent(s.q));
     if (s.page > 1) parts.push('page=' + s.page);
     var h = parts.length ? '#' + parts.join('&') : '';
     if (h === (location.hash || '')) { render(true); return; }
@@ -61,7 +65,7 @@
     var alt = (isV ? 'Vidéo : ' : '') + i.title;
     return '<button class="card" type="button" data-id="' + i.n + '-' + i.type + '" aria-label="' + esc((isV ? 'Lire la vidéo : ' : 'Agrandir : ') + i.title) + '">' +
       '<span class="im"><img src="' + i.thumb + '" width="' + i.w + '" height="' + i.h + '" alt="' + esc(alt) + '" decoding="async"' + (n < 4 ? '' : ' loading="lazy"') + '>' +
-      (isV ? '<span class="playbtn">' + icon('play') + '</span><span class="kind">' + icon('film') + ' ' + mmss(i.dur) + '</span>' : '') +
+      (i.nouveau ? '<span class="new">Nouveau</span>' : '') + (isV ? '<span class="playbtn">' + icon('play') + '</span><span class="kind">' + icon('film') + ' ' + mmss(i.dur) + '</span>' : '') +
       '<span class="meta"><b>' + esc(i.title) + '</b><span>' + esc(LABEL[i.cat]) + '</span></span></span>' +
       '<span class="cap-m"><b>' + esc(i.title) + '</b><span>' + esc(LABEL[i.cat]) + '</span></span></button>';
   }
@@ -81,7 +85,13 @@
     pager.innerHTML = h;
   }
   function render(noScroll) {
-    view = DATA.filter(function (i) { return (state.cat === 'all' || i.cat === state.cat) && (state.type === 'all' || i.type === state.type); });
+    var nq = norm(state.q).split(/\s+/).filter(Boolean);
+    view = DATA.filter(function (i) {
+      if (!((state.cat === 'all' || i.cat === state.cat) && (state.type === 'all' || i.type === state.type))) return false;
+      if (!nq.length) return true;
+      var hay = norm(i.title + ' ' + LABEL[i.cat] + ' ' + i.ref + ' ' + (i.type === 'video' ? 'video' : 'photo'));
+      return nq.every(function (w) { return hay.indexOf(w) > -1; });
+    });
     var tot = Math.max(1, Math.ceil(view.length / PER));
     if (state.page > tot) state.page = tot;
     var slice = view.slice((state.page - 1) * PER, state.page * PER);
@@ -108,6 +118,9 @@
     view.forEach(function (i, k) { if (i.n + '-' + i.type === id) idx = k; });
     if (idx > -1) openLB(idx, c);
   });
+  $('#searchForm').addEventListener('submit', function (e) { e.preventDefault(); });
+  var qt = null;
+  $('#q').addEventListener('input', function (e) { var v = e.target.value; clearTimeout(qt); qt = setTimeout(function () { state.q = v.trim(); setHash({ q: state.q }); }, 250); });
   window.addEventListener('hashchange', function () { parseHash(); render(); });
 
   /* ----- visionneuse ----- */
@@ -128,12 +141,11 @@
       im.src = it.file; media = im;
     } else {
       var v = document.createElement('video');
-      v.controls = true; v.playsInline = true; v.autoplay = true; v.poster = it.thumb; v.preload = 'auto';
+      v.controls = true; v.playsInline = true; v.poster = it.thumb; v.preload = 'metadata';
       v.setAttribute('aria-label', it.title);
       v.addEventListener('loadeddata', function () { spin.remove(); });
       v.addEventListener('error', function () { spin.remove(); });
       v.src = it.file; media = v;
-      var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
     }
     stage.insertBefore(media, stage.firstChild);
     $('#lbCount').textContent = (cur + 1) + ' / ' + view.length;

@@ -4,6 +4,17 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var DATA = window.CH_CATALOGUE || [];
 
+  /* ---------- Animation de l'atelier : respecte « réduire les animations » ---------- */
+  (function () {
+    var svg = document.getElementById('craftSvg'); if (!svg) return;
+    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function apply() { try { if (mq.matches) { svg.pauseAnimations(); svg.classList.add('still'); } else { svg.unpauseAnimations(); svg.classList.remove('still'); } } catch (e) {} }
+    apply(); if (mq.addEventListener) mq.addEventListener('change', apply);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) {
+      en.forEach(function (x) { if (mq.matches) return; try { x.isIntersecting ? svg.unpauseAnimations() : svg.pauseAnimations(); } catch (e) {} });
+    }).observe(svg);
+  })();
+
   /* ---------- Compteurs ---------- */
   var np = DATA.filter(function (i) { return i.type === 'photo'; }).length;
   var nv = DATA.length - np;
@@ -178,6 +189,7 @@
   /* ---------- Devis / contact ---------- */
   $('#qForm').addEventListener('submit', function (e) {
     e.preventDefault();
+    if ($('#qWeb') && $('#qWeb').value) return; // champ piège anti-robots
     var f = { nom: $('#qName'), tel: $('#qTel'), svc: $('#qSvc'), obj: $('#qObj'), desc: $('#qDesc') };
     var digits = f.tel.value.replace(/\D/g, '');
     var bad = false;
@@ -191,5 +203,6 @@
       '\nTéléphone : ' + f.tel.value.trim() + '\nService concerné : ' + f.svc.value + '\nObjet : ' + f.obj.value +
       '\n\nDescription du projet :\n' + f.desc.value.trim() + '\n\nMessage envoyé depuis le site web.';
     open(waLink(msg), $('#qFb'), 'Votre demande est prête : WhatsApp s’ouvre pour l’envoyer à CALVIN HOME.');
+    if (window.CH_Reviews && window.CH_Reviews.submitQuote) window.CH_Reviews.submitQuote({ name: f.nom.value.trim(), phone: f.tel.value.trim(), service: f.svc.value, subject: f.obj.value, description: f.desc.value.trim() });
   });
 })();

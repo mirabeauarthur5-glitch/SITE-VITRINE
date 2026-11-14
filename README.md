@@ -114,3 +114,17 @@ La table et les règles RLS sont déjà créées dans le projet Supabase. **Acti
 
 Tests automatisés Playwright/Chromium (bureau 1366×800 et émulation Pixel 7) : logo, 5 expertises, liens WhatsApp, hero vidéo, menu mobile, devis, validation d’avis, pagination (6 pages), filtres (comptes exacts), visionneuse photo/vidéo, décodage des 20 vidéos, 72 vignettes chargées, console sans erreur, aucune requête en échec.
 Les règles RLS Supabase ont été testées en base (rôle anonyme) ; le flux navigateur → Supabase a été testé avec un réseau simulé, le réseau de la session bloquant supabase.co.
+
+## 11. Mise à jour du 14/11/2026 — 10 nouvelles vidéos (2 archives)
+
+- Ajout des 10 vidéos des archives `CALVIN_HOME_videos_partie_1.zip` (4) et `…partie_2.zip` (6), regroupées dans le même catalogue (réf. `CH-V201` à `CH-V210`, badge « Nouveau »).
+- Fichiers web : `assets/video/calvin-home-nXX.mp4` ; aperçus : `assets/posters/calvin-home-nXX.webp`.
+  Remux `faststart` sans perte (une seule vidéo > 3 Mo n'a pas gagné à être recompressée : conservée telle quelle).
+- **Originaux conservés** dans `sources/videos-originales/` (exclus du déploiement via `.vercelignore`), avec manifeste (résolution, durée, poids, SHA-256).
+- Qualité : sources en basse définition (max 854×480 en paysage, 576×1024 en vertical) → **aucune vidéo n'est présentée comme 720p/1080p** ; aucune mise à l'échelle artificielle ni bandes floues (lecteur en `object-fit: contain`).
+- Catalogue : **82 médias = 52 photos + 30 vidéos**, recherche texte (insensible aux accents), filtres, pagination (12 par page).
+- Accueil : section « Nos dernières vidéos » et animation d'un menuisier avant le pied de page (SVG, respecte `prefers-reduced-motion`).
+- Devis : en plus de l'ouverture de WhatsApp, la demande est enregistrée dans Supabase (`calvin_home_quotes`, insertion seule par le public — voir `supabase/migrations/20261114_calvin_home_quotes.sql`). Consultation : tableau de bord Supabase (authentification Supabase) → Table Editor.
+- Sécurité : en-têtes CSP, X-Frame-Options, Permissions-Policy (`vercel.json`) ; champ piège anti-robots sur le formulaire de devis.
+- SEO : canonical, Open Graph / Twitter, JSON-LD enrichi, `sitemap.xml`, image de partage `assets/brand/og-calvin-home.jpg`.
+- **Administration** : le site est statique, il n'a pas d'espace d'administration public (volontairement : aucune clé ni action sensible côté navigateur). Avis et devis se gèrent dans le tableau de bord Supabase (protégé par authentification) ; les médias se gèrent via `js/data.js` et le dépôt GitHub.

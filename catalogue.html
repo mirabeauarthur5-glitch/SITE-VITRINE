@@ -6,7 +6,8 @@
 <title>Catalogue — CALVIN HOME · Meubles, menuiserie et aménagement à Pointe-Noire</title>
 <meta name="description" content="Catalogue complet CALVIN HOME : photos et vidéos de meubles en bois, menuiserie aluminium, garnissage, décoration et aménagements réalisés à Pointe-Noire.">
 <meta name="theme-color" content="#17120E">
-<meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:site_name" content="CALVIN HOME"><meta property="og:title" content="Catalogue — CALVIN HOME">
+<link rel="canonical" href="https://site-vitrine-ciry.vercel.app/catalogue.html">
+<meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:site_name" content="CALVIN HOME"><meta property="og:title" content="Catalogue — CALVIN HOME"><meta property="og:description" content="82 photos et vidéos : meubles en bois, menuiserie aluminium, garnissage, décoration et construction à Pointe-Noire."><meta property="og:url" content="https://site-vitrine-ciry.vercel.app/catalogue.html"><meta property="og:image" content="https://site-vitrine-ciry.vercel.app/assets/brand/og-calvin-home.jpg"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="48x48" href="assets/brand/favicon-48.png">
 <link rel="apple-touch-icon" href="assets/brand/favicon-192.png">
 <link rel="stylesheet" href="css/style.css">
@@ -46,6 +47,10 @@
 
   <div class="toolbar">
     <div class="wrap">
+      <form class="search" id="searchForm" role="search">
+        <label class="sr" for="q">Rechercher dans le catalogue</label>
+        <input id="q" type="search" placeholder="Rechercher : canapé, porte, cuisine…" autocomplete="off" maxlength="60">
+      </form>
       <div class="chips" id="chips" role="group" aria-label="Filtrer par catégorie"></div>
       <div class="seg" id="seg" role="group" aria-label="Filtrer par type de média">
         <button data-k="all" aria-pressed="true">Tout</button>
