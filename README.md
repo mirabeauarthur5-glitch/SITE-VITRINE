@@ -125,7 +125,7 @@ Les règles RLS Supabase ont été testées en base (rôle anonyme) ; le flux na
   Remux `faststart` sans perte (une seule vidéo > 3 Mo n'a pas gagné à être recompressée : conservée telle quelle).
 - **Originaux conservés** dans `sources/videos-originales/` (exclus du déploiement via `.vercelignore`), avec manifeste (résolution, durée, poids, SHA-256).
 - Qualité : sources en basse définition (max 854×480 en paysage, 576×1024 en vertical) → **aucune vidéo n'est présentée comme 720p/1080p** ; aucune mise à l'échelle artificielle ni bandes floues (lecteur en `object-fit: contain`).
-- Catalogue : **82 médias = 52 photos + 30 vidéos**, recherche texte (insensible aux accents), filtres, pagination (12 par page).
+- Catalogue : **81 médias affichés = 52 photos + 29 vidéos** (82 dans `js/data.js` : la vidéo « L’équipe CALVIN HOME », n°78, est masquée par `"hidden":true`, son fichier est conservé), recherche texte (insensible aux accents), filtres, pagination (12 par page).
 - Accueil : section « Nos dernières vidéos » et animation d'un menuisier avant le pied de page (SVG, respecte `prefers-reduced-motion`).
 - Devis : en plus de l'ouverture de WhatsApp, la demande est enregistrée dans Supabase (`calvin_home_quotes`, insertion seule par le public — voir `supabase/migrations/20261114_calvin_home_quotes.sql`). Consultation : tableau de bord Supabase (authentification Supabase) → Table Editor.
 - Sécurité : en-têtes CSP, X-Frame-Options, Permissions-Policy (`vercel.json`) ; champ piège anti-robots sur le formulaire de devis.

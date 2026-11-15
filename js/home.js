@@ -2,18 +2,7 @@
 (function () {
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
-  var DATA = window.CH_CATALOGUE || [];
-
-  /* ---------- Animation de l'atelier : respecte « réduire les animations » ---------- */
-  (function () {
-    var svg = document.getElementById('craftSvg'); if (!svg) return;
-    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    function apply() { try { if (mq.matches) { svg.pauseAnimations(); svg.classList.add('still'); } else { svg.unpauseAnimations(); svg.classList.remove('still'); } } catch (e) {} }
-    apply(); if (mq.addEventListener) mq.addEventListener('change', apply);
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) {
-      en.forEach(function (x) { if (mq.matches) return; try { x.isIntersecting ? svg.unpauseAnimations() : svg.pauseAnimations(); } catch (e) {} });
-    }).observe(svg);
-  })();
+  var DATA = (window.CH_CATALOGUE || []).filter(function (i) { return !i.hidden; });
 
   /* ---------- Compteurs ---------- */
   var np = DATA.filter(function (i) { return i.type === 'photo'; }).length;

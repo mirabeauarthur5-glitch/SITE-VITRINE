@@ -95,6 +95,24 @@
     f(); window.addEventListener('scroll', f, { passive: true });
   }
 
+  // Ancres de la même page : défilement doux géré ici (et non par CSS scroll-behavior, qui entrait en conflit
+  // avec le rafraîchissement de ScrollTrigger lors d'une arrivée depuis une autre page, ex. Catalogue → Showroom)
+  function anchors() {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var norm = function (p) { return p.replace(/index\.html$/, ''); };
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href*="#"]'); if (!a) return;
+      var u; try { u = new URL(a.href, location.href); } catch (x) { return; }
+      if (u.origin !== location.origin || norm(u.pathname) !== norm(location.pathname) || u.hash.length < 2) return;
+      var el; try { el = document.getElementById(decodeURIComponent(u.hash.slice(1))); } catch (x) { return; }
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      try { history.pushState(null, '', u.hash); } catch (x) {}
+    });
+  }
+
   function reveal() {
     var els = document.querySelectorAll('.reveal');
     if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -107,7 +125,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    hydrateIcons(); wireWhatsApp(); menu(); header(); reveal();
+    hydrateIcons(); wireWhatsApp(); menu(); header(); reveal(); anchors();
     var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
   });
 })();

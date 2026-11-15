@@ -1,5 +1,6 @@
 /* Données du catalogue CALVIN HOME — modifiable : changez "cat" ou "title" pour reclasser/renommer un article.
-   cat : aluminium | bois | garnissage | decoration | construction | general */
+   cat : aluminium | bois | garnissage | decoration | construction | general
+   hidden : true → article masqué sur le site (le fichier reste dans assets/) */
 window.CH_CATALOGUE=[
 {
 "n":201,
@@ -636,7 +637,8 @@ window.CH_CATALOGUE=[
 "cat":"general",
 "title":"L’équipe CALVIN HOME",
 "dur":22,
-"ref":"CH-0078"
+"ref":"CH-0078",
+"hidden":true
 },
 {
 "n":79,

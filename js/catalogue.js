@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var $ = function (s) { return document.querySelector(s); };
-  var DATA = (window.CH_CATALOGUE || []).slice();
+  var DATA = (window.CH_CATALOGUE || []).filter(function (i) { return !i.hidden; });
   var PER = 12;
   var CATS = [
     ['all', 'Tous les articles'], ['aluminium', 'Aluminium'], ['bois', 'Bois et meubles'],

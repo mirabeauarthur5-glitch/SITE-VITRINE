@@ -28,7 +28,7 @@
   --ease:cubic-bezier(.22,.61,.36,1);
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--hh) + 8px)}
+html{scroll-behavior:auto;-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--hh) + 8px)}
 html.lock{overflow:hidden}
 body{margin:0;background:var(--ivory);color:var(--ink-2);font-family:var(--sans);font-size:17px;line-height:1.65;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video,svg{display:block;max-width:100%}
@@ -420,34 +420,35 @@ fieldset.field{border:0;padding:0;margin:0}
 @media (max-width:900px){.nv-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
 
 /* ---------- Atelier : animation du menuisier ---------- */
-.craft{background:var(--ink);color:#fff;padding:clamp(56px,7vw,104px) 0 0;overflow:hidden}
-.craft-txt{font-family:var(--serif);font-size:clamp(1.7rem,3.6vw,3rem);line-height:1.18;text-align:center;max-width:24ch;margin:0 auto;color:#fff;font-style:italic;font-weight:400}
-.craft-scene{max-width:1100px;margin:clamp(20px,3vw,40px) auto 0;padding:0 var(--pad)}
-.craft-scene svg{display:block;width:100%;height:auto}
-.craft svg *{vector-effect:non-scaling-stroke}
-.craft .floor{stroke:var(--bronze-l);stroke-opacity:.35;stroke-width:1.5}
-.craft .bench rect{fill:var(--wood);stroke:var(--bronze-l);stroke-width:1.2}
-.craft .bench path{stroke:var(--bronze-l);stroke-width:2.2;fill:none;stroke-linecap:round}
-.craft .plank{fill:var(--bronze);stroke:var(--bronze-l);stroke-width:1}
-.craft .plank-grain{stroke:var(--wood);stroke-width:1;opacity:.7;fill:none}
-.craft .man .leg{stroke:var(--sand);stroke-width:9;stroke-linecap:round;fill:none;opacity:.9}
-.craft .man .shoe{stroke:var(--bronze-l);stroke-width:5;stroke-linecap:round}
-.craft .man .body{fill:var(--ink-2);stroke:var(--sand);stroke-width:1.6}
-.craft .man .apron{fill:var(--brown);opacity:.9}
-.craft .man .head{fill:var(--sand)}
-.craft .man .cap{fill:var(--bronze-l)}
-.craft .man .arm{stroke:var(--sand);stroke-width:9;stroke-linecap:round}
-.craft .plane rect{fill:var(--bronze-l)}
-.craft .plane path{fill:none;stroke:var(--sand);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.craft .sh{fill:none;stroke:var(--bronze-l);stroke-width:1.6;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:left bottom;animation:shave 2.6s ease-out infinite}
-.craft .s2{animation-delay:.35s}.craft .s3{animation-delay:.7s}
-.craft .dust{fill:var(--sand);opacity:0;animation:dust 2.6s ease-out infinite}
-.craft .d2{animation-delay:.3s}.craft .d3{animation-delay:.6s}
-@keyframes shave{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:.9}100%{opacity:0;transform:translate(-26px,10px) scale(1.1) rotate(-12deg)}}
-@keyframes dust{0%{opacity:0;transform:translateY(0)}25%{opacity:.7}100%{opacity:0;transform:translateY(-16px)}}
-.craft svg.still .sh,.craft svg.still .dust{animation:none;opacity:0}
-.craft svg.still .sh.s1{opacity:.8}
-@media (prefers-reduced-motion:reduce){.craft .sh,.craft .dust{animation:none;opacity:0}.craft .sh.s1{opacity:.8}}
+.craft{background:var(--ink);color:#fff;padding:clamp(56px,7vw,104px) 0 clamp(44px,5vw,80px);overflow:hidden}
+.craft-title{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.6vw,3.8rem);line-height:1.08;text-align:center;margin:0 auto;color:#fff}
+.craft-title em{color:var(--bronze-l);font-style:italic}
+.craft-txt{text-align:center;max-width:46ch;margin:16px auto 0;color:var(--sand);font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.6}
+.craft-scene{max-width:1100px;margin:clamp(24px,3.5vw,44px) auto 0;padding:0 var(--pad)}
+.craft-scene svg{display:block;width:100%;height:auto;aspect-ratio:1200/560;background:#0C0907;border:1px solid rgba(195,154,94,.28)}
+@media (max-width:720px){.craft-scene svg{aspect-ratio:1/1}}
+/* Scène « Un intérieur qui prend vie » : l'état par défaut est la scène FINALE (sans JS / animations réduites) */
+.craft .vol{stroke:none}
+.craft .v-floor{fill:#4A3322}.craft .v-back{fill:#CDBB9F}.craft .v-left{fill:#B7A283}.craft .v-right{fill:#BDA888}.craft .v-ceil{fill:#E6D9C3}
+.craft .wire .dr,.craft .win-lines .dr{fill:none;stroke:var(--bronze-l);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:720px){.craft .wire .dr,.craft .win-lines .dr{stroke-width:4}}
+.craft .wire .dr{stroke-opacity:.55}
+.craft .f-shelf polygon{fill:#5E3B22;stroke:var(--bronze-l);stroke-width:1.5}.craft .f-shelf path{fill:none;stroke:var(--bronze-l);stroke-width:2}
+.craft .f-rug polygon{fill:#D9CBB3}.craft .f-rug .rug-in{fill:none;stroke:#8F6330;stroke-width:3}
+.craft .f-lamp ellipse{fill:#2A211A}.craft .f-lamp .pole{stroke:#2A211A;stroke-width:4;fill:none}.craft .f-lamp polygon{fill:#E6DAC7;stroke:#8F6330;stroke-width:1.5}
+.craft .f-plant path{fill:#2A211A}.craft .f-plant .lf{fill:#4F6B3E}
+.craft .f-sofa rect{fill:#5B4A3B;stroke:#2A211A;stroke-width:1.5}.craft .f-sofa .leg{fill:#2A211A}.craft .f-sofa .seam,.craft .f-table .seam{stroke:#2A211A;stroke-width:2;fill:none}
+.craft .f-table polygon{fill:#9A6B3F;stroke:#5E3B22;stroke-width:1.5}.craft .f-table .front{fill:#5E3B22}
+.craft .d-art .fr{fill:#5E3B22;stroke:var(--bronze-l);stroke-width:1.5}.craft .d-art .in{fill:#F1E9DC}.craft .d-art .hill{fill:#8F6330}.craft .d-art .sun{fill:#C39A5E}
+.craft .d-pend .cord{stroke:#2A211A;stroke-width:2.5;fill:none}.craft .d-pend .shade{fill:#C39A5E;stroke:#8F6330;stroke-width:1.5}
+.craft .d-cush .c1{fill:#C39A5E}.craft .d-cush .c2{fill:#F1E9DC;stroke:#8F6330;stroke-width:1.5}
+.craft .d-vase .vs{fill:#F1E9DC;stroke:#8F6330;stroke-width:1.5}.craft .d-vase .st{stroke:#4F6B3E;stroke-width:2.5;fill:none}.craft .d-vase .bl{fill:#C39A5E}
+.craft .dim{fill:#0C0907;opacity:.14}
+.craft .beam,.craft .glow{opacity:1}
+.craft-steps{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px clamp(14px,2.4vw,34px);margin:22px 0 0;padding:0;font:500 .78rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+.craft-steps li{color:rgba(230,218,199,.7);padding-bottom:8px;border-bottom:1px solid transparent;transition:color .4s,border-color .4s}
+.craft-steps li.past{color:rgba(230,218,199,.9)}
+.craft-steps li.on{color:var(--bronze-l);border-color:var(--bronze-l)}
 
 
 /* =========================================================
@@ -457,7 +458,7 @@ fieldset.field{border:0;padding:0;margin:0}
 .mw-i{display:inline-block;will-change:transform}
 .mo-anim{transition:none !important}
 /* Rideau de transition entre pages (la navigation reste native) */
-.ptr{position:fixed;inset:0;z-index:500;background:var(--ink);transform:translateY(-100%);pointer-events:none}
+.ptr{position:fixed;inset:0;z-index:500;background:var(--ink);opacity:0;pointer-events:none}
 /* Bouton mis en valeur : deux impulsions discrètes, une seule fois */
 .btn.hl{position:relative}
 .btn.hl::after{content:"";position:absolute;inset:-1px;border:1px solid var(--bronze-l);opacity:0;pointer-events:none;animation:ring 1.5s var(--ease) 2}
