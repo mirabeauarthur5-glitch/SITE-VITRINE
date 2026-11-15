@@ -36,6 +36,9 @@ index.html            Accueil (hero, expertises, aperçu catalogue, showroom, av
 catalogue.html        Catalogue complet : filtres, pagination, visionneuse photo/vidéo
 css/style.css         Styles (palette beige / bois / bronze / noir profond)
 js/common.js          Icônes SVG, liens WhatsApp, menu mobile, animations
+js/motion.js          Motion design GSAP (hero, révélations, parallaxe, transitions de page)
+js/vendor/            GSAP 3.15.1 + ScrollTrigger (auto-hébergés : la CSP n’autorise que « self »)
+DESIGN-DNA.md         Identité visuelle : palette, typographies, composants, mouvement
 js/home.js            Hero, avis, formulaires (devis, avis)
 js/catalogue.js       Filtres, pagination, visionneuse
 js/data.js            LISTE DES 72 ARTICLES (photos + vidéos) — modifiable

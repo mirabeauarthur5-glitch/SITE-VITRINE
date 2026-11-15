@@ -149,8 +149,8 @@ section{position:relative}
 .svc:nth-child(even) .txt{grid-column:6/12;grid-row:1}
 .svc:nth-child(even) .num{grid-column:12/13;grid-row:1;text-align:right}
 .svc:nth-child(even) .photo{grid-column:1/6;grid-row:1}
-.svc .photo img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
-.svc:hover .photo img{transform:scale(1.04)}
+.svc .photo img{width:100%;height:100%;object-fit:cover;transition:scale 1.2s var(--ease)}
+.svc:hover .photo img{scale:1.04}
 .svc .si{width:54px;height:54px;color:var(--wood);margin-bottom:20px}
 .svc .si .ic{width:100%;height:100%;stroke-width:1.2}
 .svc h3{font-size:clamp(1.9rem,3vw,2.8rem)}
@@ -448,3 +448,28 @@ fieldset.field{border:0;padding:0;margin:0}
 .craft svg.still .sh,.craft svg.still .dust{animation:none;opacity:0}
 .craft svg.still .sh.s1{opacity:.8}
 @media (prefers-reduced-motion:reduce){.craft .sh,.craft .dust{animation:none;opacity:0}.craft .sh.s1{opacity:.8}}
+
+
+/* =========================================================
+   MOTION DESIGN (js/motion.js) — transform / opacity uniquement
+   ========================================================= */
+.mw{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .16em;margin:0 -.06em -.16em}
+.mw-i{display:inline-block;will-change:transform}
+.mo-anim{transition:none !important}
+/* Rideau de transition entre pages (la navigation reste native) */
+.ptr{position:fixed;inset:0;z-index:500;background:var(--ink);transform:translateY(-100%);pointer-events:none}
+/* Bouton mis en valeur : deux impulsions discrètes, une seule fois */
+.btn.hl{position:relative}
+.btn.hl::after{content:"";position:absolute;inset:-1px;border:1px solid var(--bronze-l);opacity:0;pointer-events:none;animation:ring 1.5s var(--ease) 2}
+@keyframes ring{0%{opacity:.75;transform:scale(1)}100%{opacity:0;transform:scale(1.14,1.5)}}
+/* Retour de formulaire : entrée douce */
+.fb.show{animation:fbin .5s var(--ease)}
+@keyframes fbin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* Boutons : flèche qui glisse au survol, appui visible au tactile */
+.btn .ic{transition:transform .3s var(--ease)}
+.btn:hover .ic:last-child{transform:translateX(4px)}
+.btn:active{transform:scale(.98)}
+/* Signature de la maison */
+.h2+.lead{margin-top:22px}
+.footer .signature{margin-top:14px;max-width:34ch;font-family:var(--serif);font-style:italic;font-size:1.25rem;line-height:1.3;color:var(--bronze-l)}
+@media (prefers-reduced-motion:reduce){.btn.hl::after{animation:none}.ptr{display:none}}

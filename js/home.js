@@ -152,7 +152,7 @@
   }
   rate.innerHTML = rh;
 
-  function fieldBad(el, bad) { var f = el.closest('.field'); if (f) f.classList.toggle('bad', bad); return bad; }
+  function fieldBad(el, bad) { var f = el.closest('.field'); if (f) { f.classList.toggle('bad', bad); if (bad && window.CH_motion) window.CH_motion.invalid(f); } return bad; }
   function open(url, fb, label) {
     try { window.open(url, '_blank', 'noopener'); } catch (e) {}
     fb.innerHTML = label + ' <a href="' + url + '" target="_blank" rel="noopener">Ouvrir WhatsApp</a> si rien ne s’est ouvert.';
