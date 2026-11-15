@@ -310,7 +310,7 @@
   var touched = false;
   ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, function () { touched = true; }, { passive: true, once: true }); });
   function settleHash() {
-    if (touched || !location.hash || location.hash.length < 2) return;
+    if (window.CH_RELOAD || touched || !location.hash || location.hash.length < 2) return;   // actualisation : js/scroll.js ramène en haut
     var el; try { el = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (e) { return; }
     if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
