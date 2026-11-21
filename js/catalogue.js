@@ -65,7 +65,7 @@
     var alt = (isV ? 'Vidéo : ' : '') + i.title;
     return '<button class="card" type="button" data-id="' + i.n + '-' + i.type + '" aria-label="' + esc((isV ? 'Lire la vidéo : ' : 'Agrandir : ') + i.title) + '">' +
       '<span class="im"><img src="' + i.thumb + '" width="' + i.w + '" height="' + i.h + '" alt="' + esc(alt) + '" decoding="async"' + (n < 4 ? '' : ' loading="lazy"') + '>' +
-      (i.nouveau ? '<span class="new">Nouveau</span>' : '') + (isV ? '<span class="playbtn">' + icon('play') + '</span><span class="kind">' + icon('film') + ' ' + mmss(i.dur) + '</span>' : '') +
+      (i.nouveau ? '<span class="new">Nouveau</span>' : '') + (i.modele ? '<span class="new mod">Modèle</span>' : '') + (isV ? '<span class="playbtn">' + icon('play') + '</span><span class="kind">' + icon('film') + ' ' + mmss(i.dur) + '</span>' : '') +
       '<span class="meta"><b>' + esc(i.title) + '</b><span>' + esc(LABEL[i.cat]) + '</span></span></span>' +
       '<span class="cap-m"><b>' + esc(i.title) + '</b><span>' + esc(LABEL[i.cat]) + '</span></span></button>';
   }
@@ -89,7 +89,7 @@
     view = DATA.filter(function (i) {
       if (!((state.cat === 'all' || i.cat === state.cat) && (state.type === 'all' || i.type === state.type))) return false;
       if (!nq.length) return true;
-      var hay = norm(i.title + ' ' + LABEL[i.cat] + ' ' + i.ref + ' ' + (i.type === 'video' ? 'video' : 'photo'));
+      var hay = norm(i.title + ' ' + LABEL[i.cat] + ' ' + i.ref + ' ' + (i.type === 'video' ? 'video' : 'photo') + (i.modele ? ' modele' : ''));
       return nq.every(function (w) { return hay.indexOf(w) > -1; });
     });
     var tot = Math.max(1, Math.ceil(view.length / PER));
@@ -150,7 +150,7 @@
     stage.insertBefore(media, stage.firstChild);
     $('#lbCount').textContent = (cur + 1) + ' / ' + view.length;
     $('#lbTitle').textContent = it.title;
-    $('#lbCat').textContent = LABEL[it.cat] + (it.type === 'video' ? ' · Vidéo' : ' · Photo');
+    $('#lbCat').textContent = LABEL[it.cat] + (it.type === 'video' ? ' · Vidéo' : ' · Photo') + (it.modele ? ' · Modèle' : '');
     $('#lbWa').href = waLink(WA_MSG.produit(it.title, it.ref));
     var one = view.length < 2; $('#lbPrev').style.display = $('#lbNext').style.display = one ? 'none' : '';
     [1, -1].forEach(function (d) { var n = view[(cur + d + view.length) % view.length]; if (n && n.type === 'photo') (new Image()).src = n.file; });

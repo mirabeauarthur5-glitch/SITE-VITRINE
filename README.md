@@ -41,7 +41,7 @@ js/vendor/            GSAP 3.15.1 + ScrollTrigger (auto-hébergés : la CSP n’
 DESIGN-DNA.md         Identité visuelle : palette, typographies, composants, mouvement
 js/home.js            Hero, avis, formulaires (devis, avis)
 js/catalogue.js       Filtres, pagination, visionneuse
-js/data.js            LISTE DES 72 ARTICLES (photos + vidéos) — modifiable
+js/data.js            LISTE DES ARTICLES (photos + vidéos, voir §11 et §12) — modifiable
 js/avis-valides.js    Avis validés ajoutés manuellement (vide au départ)
 js/reviews.js         Avis clients via Supabase (REST)
 js/supabase-config.js Configuration Supabase (vide par défaut)
@@ -49,7 +49,7 @@ supabase/migrations/  Table des avis + règles RLS
 scripts/gen-config.js Génère la config Supabase au build (Vercel)
 vercel.json           Configuration de déploiement
 assets/brand/         Logo officiel CALVIN HOME + favicons (tirés du vrai logo)
-assets/img/           52 photos pleine taille (WebP)
+assets/img/           90 photos pleine taille (WebP)
 assets/thumbs/        Miniatures de la grille (WebP, chargement rapide)
 assets/video/         20 vidéos (MP4 H.264, optimisées pour le démarrage rapide)
 assets/posters/       Images d’aperçu des vidéos
@@ -131,3 +131,17 @@ Les règles RLS Supabase ont été testées en base (rôle anonyme) ; le flux na
 - Sécurité : en-têtes CSP, X-Frame-Options, Permissions-Policy (`vercel.json`) ; champ piège anti-robots sur le formulaire de devis.
 - SEO : canonical, Open Graph / Twitter, JSON-LD enrichi, `sitemap.xml`, image de partage `assets/brand/og-calvin-home.jpg`.
 - **Administration** : le site est statique, il n'a pas d'espace d'administration public (volontairement : aucune clé ni action sensible côté navigateur). Avis et devis se gèrent dans le tableau de bord Supabase (protégé par authentification) ; les médias se gèrent via `js/data.js` et le dépôt GitHub.
+
+## 12. Mise à jour du 21/11/2026 — pack « Médias optimisés » (images + vidéos à évaluer)
+
+- Sources : `CALVIN_HOME_IMAGES_WEB_OPTIMISEES.zip` (82 photos WebP, 8 familles) et `CALVIN_HOME_VIDEOS_A_EVALUER.zip` (7 vidéos). README et manifestes CSV du pack suivis ; noms de fichiers du pack conservés.
+- **Doublons écartés (22 photos)** : déjà au catalogue (mêmes numéros d'origine `IMG-20261112-WAxxxx`, empreintes visuelles identiques, mêmes dimensions) → rien remplacé. Écartée aussi `armoire-bois_45` (même armoire que `WA0083`, portes fermées).
+- **Photos intégrées : 38** (réf. `CH-M01` à `CH-M38`) : Aluminium +6, Bois et meubles +21 (lits, meubles, portes), Décoration +3, Construction +8 (cuisines, grilles). Miniatures de grille générées à 640 px (comme les photos existantes).
+- **Photos non publiées** : filigrane tiers (`meuble-tv-et-rangement_16`), captures d'écran (`fenetre-menuiserie_21`, `dressing-rangement_23`, `visuel-a-verifier_73` = capture Pinterest), définition trop faible ou images redondantes (`salle-a-manger-interieur_01/03`, `etagere-decorative_04`, `grille-metallique-detail_61`, plusieurs portes/fenêtres quasi identiques). Le dossier « à vérifier » n'est pas publié.
+- **Badge « Modèle »** (`"modele": true` dans `js/data.js`) sur les visuels qui ne sont pas des réalisations CALVIN HOME confirmées (la plupart des photos du pack sont des visuels de catalogue/inspiration). Retirez ce champ pour un article dont le client confirme qu'il s'agit d'un de ses chantiers.
+- **Vidéos** (7 évaluées) :
+  - `InShot_20261117_111121529` : chantier CALVIN HOME (logo incrusté), **gardée, coupée à 22,6 s sans recompression** (la suite est tournée de côté, puis avec de larges bandes floues). Original complet dans `sources/videos-originales/`. Catégorie Aluminium.
+  - `VID-20261116-WA0066` : nette (720×1280), gardée avec badge « Modèle ».
+  - `VID-20261116-WA0067` (très compressée, artefact visible, bandes noires) et `VID-20261116-WA0094` (368×480, montage de visuels, bandes noires) : **écartées**.
+  - `VID-20261112-WA0034`, `WA0092`, `WA0096` : déjà au catalogue (même durée et résolution) → non réintégrées.
+- Catalogue : **121 articles = 90 photos + 31 vidéos** (11 pages de 12). Tests Playwright (bureau 1366×800 et Pixel 7) : toutes les vignettes chargées, filtres et pagination exacts, visionneuse photo/vidéo, aucune erreur console.
