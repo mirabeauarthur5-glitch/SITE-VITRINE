@@ -409,6 +409,7 @@ fieldset.field{border:0;padding:0;margin:0}
 .search input{width:100%;min-height:46px;padding:0 16px;border:1px solid var(--line);background:#fff;font:inherit;font-size:15px;color:var(--ink);border-radius:0}
 .search input:focus{outline:2px solid var(--bronze);outline-offset:1px}
 .card .new{position:absolute;right:10px;top:10px;background:var(--bronze);color:#fff;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:5px 9px;z-index:2}
+.card .new.mod{background:rgba(23,18,14,.78)}
 
 /* ---------- Nouvelles vidéos (accueil) ---------- */
 .newvids{background:var(--ivory)}
